@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/mux"
 
@@ -63,10 +64,32 @@ func previewHandler(imgSvc ImgService, fileCache FileCache, enableThumbnails, re
 		switch file.Type {
 		case "image":
 			return handleImagePreview(w, r, imgSvc, fileCache, file, previewSize, enableThumbnails, resizePreview)
+		case "video":
+			return handleVideoPreview(w, r, d)
 		default:
 			return http.StatusNotImplemented, fmt.Errorf("can't create preview for %s type", file.Type)
 		}
 	})
+}
+
+func handleVideoPreview(
+	w http.ResponseWriter,
+	r *http.Request,
+	d *data,
+) (int, error) {
+	vars := mux.Vars(r)
+	file, err := files.NewFileInfo(&files.FileOptions{
+		Fs:         d.user.Fs,
+		Path:       "/" + strings.Replace(vars["path"], "mp4", "jpg", 1),
+		Modify:     d.user.Perm.Modify,
+		Expand:     true,
+		ReadHeader: d.server.TypeDetectionByHeader,
+		Checker:    d,
+	})
+	if err != nil {
+	    return errToStatus(err), err
+	}
+	return rawFileHandler(w, r, file)
 }
 
 func handleImagePreview(
