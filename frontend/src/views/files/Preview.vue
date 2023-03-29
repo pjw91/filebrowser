@@ -11,39 +11,20 @@
       <title>{{ name }}</title>
       <action
         :disabled="layoutStore.loading"
-        v-if="isResizeEnabled && fileStore.req?.type === 'image'"
-        :icon="fullSize ? 'photo_size_select_large' : 'hd'"
-        @action="toggleSize"
+        v-if="authStore.user?.perm.delete"
+        icon="delete"
+        :label="$t('buttons.delete')"
+        @action="deleteFileFast"
+        id="delete-button"
       />
 
       <template #actions>
-        <action
-          :disabled="layoutStore.loading"
-          v-if="authStore.user?.perm.rename"
-          icon="mode_edit"
-          :label="$t('buttons.rename')"
-          show="rename"
-        />
-        <action
-          :disabled="layoutStore.loading"
-          v-if="authStore.user?.perm.delete"
-          icon="delete"
-          :label="$t('buttons.delete')"
-          @action="deleteFile"
-          id="delete-button"
-        />
         <action
           :disabled="layoutStore.loading"
           v-if="authStore.user?.perm.download"
           icon="file_download"
           :label="$t('buttons.download')"
           @action="download"
-        />
-        <action
-          :disabled="layoutStore.loading"
-          icon="info"
-          :label="$t('buttons.info')"
-          show="info"
         />
       </template>
     </header-bar>
@@ -321,6 +302,26 @@ const deleteFile = () => {
       }
     },
   });
+};
+
+const deleteFileFast = async () => {
+  try {
+    if (listing.value === null) {
+      return;
+    }
+    await api.remove(route.path);
+
+    listing.value = listing.value.filter((item) => item.name !== name.value);
+    if (hasNext.value) {
+      next();
+    } else if (!hasPrevious.value && !hasNext.value) {
+      close();
+    } else {
+      prev();
+    }
+  } catch (e: any) {
+    $showError(e);
+  }
 };
 
 const prev = () => {
