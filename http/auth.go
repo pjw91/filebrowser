@@ -13,6 +13,7 @@ import (
 	"github.com/golang-jwt/jwt/v4/request"
 
 	fbErrors "github.com/filebrowser/filebrowser/v2/errors"
+	"github.com/filebrowser/filebrowser/v2/auth"
 	"github.com/filebrowser/filebrowser/v2/users"
 )
 
@@ -77,7 +78,7 @@ func withUser(fn handleFunc) handleFunc {
 			return http.StatusUnauthorized, nil
 		}
 
-		expired := !tk.VerifyExpiresAt(time.Now().Add(time.Hour), true)
+		expired := !tk.VerifyExpiresAt(time.Now().Add(time.Hour), false)
 		updated := tk.IssuedAt != nil && tk.IssuedAt.Unix() < d.store.Users.LastUpdate(tk.User.ID)
 
 		if expired || updated {
@@ -198,7 +199,7 @@ func printToken(w http.ResponseWriter, _ *http.Request, d *data, user *users.Use
 		},
 		RegisteredClaims: jwt.RegisteredClaims{
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(tokenExpirationTime)),
+			ExpiresAt: (map[bool]*jwt.NumericDate{true: nil, false: jwt.NewNumericDate(time.Now().Add(tokenExpirationTime))})[d.settings.AuthMethod == auth.MethodNoAuth],
 			Issuer:    "File Browser",
 		},
 	}
