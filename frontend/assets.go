@@ -5,7 +5,9 @@ package frontend
 
 import "embed"
 
-//go:embed dist/*
+//go:embed dist/assets/*
+//go:embed dist/img/*
+//go:embed dist/public/index.html
 var assets embed.FS
 
 func Assets() embed.FS {
