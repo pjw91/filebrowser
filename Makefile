@@ -27,7 +27,7 @@ endif
 .PHONY: build-backend
 build-backend: ## Build backend
 	@-mkdir /dev/shm/tmp-gobuild
-	$Q TMPDIR=/dev/shm/tmp-gobuild $(go) build -ldflags '$(LDFLAGS)' -o .
+	$Q TMPDIR=/dev/shm/tmp-gobuild $(go) build -ldflags '$(LDFLAGS)' -o . $(GO_ARGS)
 
 .PHONY: test
 test: | test-frontend test-backend ## Run all tests
