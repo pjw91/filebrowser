@@ -1,3 +1,7 @@
+ifeq ($(shell stat -f -c %T .), fuseblk)
+export GOMODCACHE=/dev/shm/tmp-gomodcache
+FUSEBLK=1
+endif
 include common.mk
 include tools.mk
 
@@ -10,11 +14,20 @@ build: | build-frontend build-backend ## Build binary
 
 .PHONY: build-frontend
 build-frontend: ## Build frontend
+ifeq (${FUSEBLK}, 1)
+	@if ! mountpoint -q frontend/node_modules; then \
+		sudo mount devtmpfs -t tmpfs frontend/node_modules; \
+	fi
+	@if ! mountpoint -q .pnpm-store; then \
+		sudo mount devtmpfs -t tmpfs .pnpm-store; \
+	fi
+endif
 	$Q cd frontend && pnpm install --frozen-lockfile && pnpm run build
 
 .PHONY: build-backend
 build-backend: ## Build backend
-	$Q $(go) build -ldflags '$(LDFLAGS)' -o .
+	@-mkdir /dev/shm/tmp-gobuild
+	$Q TMPDIR=/dev/shm/tmp-gobuild $(go) build -ldflags '$(LDFLAGS)' -o .
 
 .PHONY: test
 test: | test-frontend test-backend ## Run all tests
