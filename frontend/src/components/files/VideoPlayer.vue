@@ -80,6 +80,7 @@ const initVideoPlayer = async () => {
       playbackRatesOpt
     );
     player.value = videojs(videoPlayer.value!, options, () => {});
+    player.value.playbackRate(1.5);
 
     // TODO: need to test on mobile
     // @ts-expect-error no ts definition for mobileUi
