@@ -83,6 +83,7 @@
           :source="raw"
           :subtitles="subtitles"
           :options="videoOptions"
+          :poster="posterUrl"
         >
         </VideoPlayer>
         <object v-else-if="isPdf" class="pdf" :data="raw"></object>
@@ -235,6 +236,10 @@ const hasNext = computed(() => nextLink.value !== "");
 
 const downloadUrl = computed(() =>
   fileStore.req ? api.getDownloadURL(fileStore.req, true) : ""
+);
+
+const posterUrl = computed(() =>
+  fileStore.req ? api.getPreviewURL(fileStore.req, "big") : ""
 );
 
 const raw = computed(() => {
@@ -396,7 +401,7 @@ const updatePreview = async () => {
 };
 
 const prefetchUrl = (item: ResourceItem) => {
-  if (item.type !== "image") {
+  if (item.type !== "image" && item.type !== "video") {
     return "";
   }
 
