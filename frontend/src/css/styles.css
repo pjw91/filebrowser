@@ -185,6 +185,10 @@ main .spinner .bounce2 {
   z-index: 19999;
 }
 
+#previewer header > .action {
+  z-index: 1;
+}
+
 #previewer header > .action i {
   color: #fff;
   text-shadow: 1px 1px 1px #000000;
@@ -193,6 +197,7 @@ main .spinner .bounce2 {
 #previewer header > title {
   white-space: nowrap;
   text-shadow: 1px 1px 1px #000000;
+  padding: 0;
 }
 
 @media (min-width: 738px) {
