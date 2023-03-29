@@ -23,6 +23,7 @@ import videojs from "video.js";
 import type Player from "video.js/dist/types/player";
 import "videojs-mobile-ui";
 import "videojs-hotkeys";
+import type { VideoJsHotkeysOptions } from "videojs-hotkeys";
 import "video.js/dist/video-js.min.css";
 import "videojs-mobile-ui/dist/videojs-mobile-ui.css";
 
@@ -103,10 +104,34 @@ const getOptions = (...srcOpt: any[]) => {
     },
     plugins: {
       hotkeys: {
+        captureDocumentHotkeys: true,
+        documentHotkeysFocusElementFilter: e => e === document.body,
         volumeStep: 0.1,
         seekStep: 10,
+        enableVolumeScroll: false,
+        enableHoverScroll: false,
+        enableNumbers: false,
         enableModifiersForNumbers: false,
-      },
+        rewindKey: () => false,
+        forwardKey: () => false,
+        playPauseKey(event) {
+          if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+            return false;
+          return event.key === 'k' || event.key === ' ';
+        },
+        customKeys: {
+          p: {
+            key(event) {
+              if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+                return false;
+              return event.key === 'p';
+            },
+            async handler(player, options, event) {
+              await player.isInPictureInPicture() ? player.exitPictureInPicture() : player.requestPictureInPicture()
+            },
+          }
+        }
+      } as VideoJsHotkeysOptions,
     },
   };
 

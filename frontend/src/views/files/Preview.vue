@@ -339,7 +339,7 @@ const next = () => {
   router.replace({ path: nextLink.value });
 };
 
-const key = (event: KeyboardEvent) => {
+const key = async (event: KeyboardEvent) => {
   if (layoutStore.currentPrompt !== null) {
     return;
   }
@@ -352,6 +352,8 @@ const key = (event: KeyboardEvent) => {
   } else if (event.which === 27) {
     // esc
     close();
+  } else if (event.key === "Delete" || event.code === "NumpadDecimal") {
+    await deleteFileFast();
   }
 };
 const updatePreview = async () => {

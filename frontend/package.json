@@ -38,7 +38,7 @@
     "tus-js-client": "^4.3.1",
     "utif": "^3.1.0",
     "video.js": "^8.21.0",
-    "videojs-hotkeys": "^0.2.28",
+    "videojs-hotkeys": "^0.2.29",
     "videojs-mobile-ui": "^1.1.1",
     "vue": "^3.4.21",
     "vue-final-modal": "^4.5.4",
