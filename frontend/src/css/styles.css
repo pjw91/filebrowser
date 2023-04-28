@@ -194,10 +194,19 @@ main .spinner .bounce2 {
   text-shadow: 1px 1px 1px #000000;
 }
 
+@keyframes toggle {
+    0%  { color: darkslateblue; }
+    50% { color: white; }
+}
+
 #previewer header > title {
   white-space: nowrap;
-  text-shadow: 1px 1px 1px #000000;
   padding: 0;
+  color: darkslateblue;
+  animation-name: toggle;
+  animation-duration: 2s;
+  animation-timing-function: steps(1);
+  animation-iteration-count: infinite;
 }
 
 @media (min-width: 738px) {
