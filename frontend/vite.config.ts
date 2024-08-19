@@ -2,17 +2,13 @@ import path from "node:path";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
-import legacy from "@vitejs/plugin-legacy";
 import { compression } from "vite-plugin-compression2";
+import browserslistToEsbuild from "browserslist-to-esbuild";
 
 const plugins = [
   vue(),
   VueI18nPlugin({
     include: [path.resolve(__dirname, "./src/i18n/**/*.json")],
-  }),
-  legacy({
-    // defaults already drop IE support
-    targets: ["defaults"],
   }),
   compression({ include: /\.js$/i, deleteOriginalAssets: true }),
 ];
@@ -43,6 +39,7 @@ export default defineConfig(({ command }) => {
   } else {
     // command === 'build'
     return {
+      target: browserslistToEsbuild(),
       plugins,
       resolve,
       base: "",
