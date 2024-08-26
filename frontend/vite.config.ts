@@ -8,7 +8,7 @@ import browserslistToEsbuild from "browserslist-to-esbuild";
 const plugins = [
   vue(),
   VueI18nPlugin({
-    include: [path.resolve(__dirname, "./src/i18n/**/*.json")],
+    include: [path.resolve(__dirname, "./src/i18n/**/{en,zh-tw}.json")],
   }),
   compression({ include: /\.js$/i, deleteOriginalAssets: true }),
 ];

@@ -172,27 +172,7 @@ interface LanguageImports {
 }
 
 const languageImports: LanguageImports = {
-  he: () => import("video.js/dist/lang/he.json"),
-  hu: () => import("video.js/dist/lang/hu.json"),
-  ar: () => import("video.js/dist/lang/ar.json"),
-  de: () => import("video.js/dist/lang/de.json"),
-  el: () => import("video.js/dist/lang/el.json"),
   en: () => import("video.js/dist/lang/en.json"),
-  es: () => import("video.js/dist/lang/es.json"),
-  fr: () => import("video.js/dist/lang/fr.json"),
-  it: () => import("video.js/dist/lang/it.json"),
-  ja: () => import("video.js/dist/lang/ja.json"),
-  ko: () => import("video.js/dist/lang/ko.json"),
-  "nl-be": () => import("video.js/dist/lang/nl.json"),
-  pl: () => import("video.js/dist/lang/pl.json"),
-  "pt-br": () => import("video.js/dist/lang/pt-BR.json"),
-  pt: () => import("video.js/dist/lang/pt-PT.json"),
-  ro: () => import("video.js/dist/lang/ro.json"),
-  ru: () => import("video.js/dist/lang/ru.json"),
-  sk: () => import("video.js/dist/lang/sk.json"),
-  tr: () => import("video.js/dist/lang/tr.json"),
-  uk: () => import("video.js/dist/lang/uk.json"),
-  "zh-cn": () => import("video.js/dist/lang/zh-CN.json"),
   "zh-tw": () => import("video.js/dist/lang/zh-TW.json"),
 };
 </script>
