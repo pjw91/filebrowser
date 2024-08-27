@@ -282,8 +282,8 @@ onMounted(async () => {
   window.addEventListener("keydown", key);
   if (fileStore.oldReq) {
     listing.value = fileStore.oldReq.items;
-    updatePreview();
   }
+  updatePreview();
 });
 
 onBeforeUnmount(() => window.removeEventListener("keydown", key));
