@@ -1,5 +1,5 @@
 import path from "node:path";
-import { defineConfig } from "vite";
+import { defineConfig, splitVendorChunkPlugin } from "vite";
 import vue from "@vitejs/plugin-vue";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import { compression } from "vite-plugin-compression2";
@@ -11,6 +11,7 @@ const plugins = [
     include: [path.resolve(__dirname, "./src/i18n/**/{en,zh-tw}.json")],
   }),
   compression({ include: /\.js$/i, deleteOriginalAssets: true }),
+  // splitVendorChunkPlugin(),
 ];
 
 const resolve = {
