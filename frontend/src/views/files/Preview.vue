@@ -215,7 +215,7 @@ const fullSize = ref<boolean>(false);
 const showNav = ref<boolean>(true);
 const navTimeout = ref<null | number>(null);
 const hoverNav = ref<boolean>(false);
-const autoPlay = ref<boolean>(false);
+const autoPlay = ref<boolean>(true);
 const previousRaw = ref<string>("");
 const nextRaw = ref<string>("");
 
