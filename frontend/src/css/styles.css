@@ -185,10 +185,6 @@ main .spinner .bounce2 {
   z-index: 19999;
 }
 
-#previewer header > .action {
-  z-index: 1;
-}
-
 #previewer header > .action i {
   color: #fff;
   text-shadow: 1px 1px 1px #000000;
