@@ -94,10 +94,29 @@ const initVideoPlayer = async () => {
 const getOptions = (...srcOpt: any[]) => {
   const options = {
     controlBar: {
-      skipButtons: {
-        forward: 5,
-        backward: 5,
-      },
+      remainingTimeDisplay: false,
+      pictureInPictureToggle: false,
+      children: [
+        'playToggle',
+        'skipBackward',
+        'skipForward',
+        'volumePanel',
+        'progressControl',
+        'liveDisplay',
+        'seekToLive',
+        'currentTimeDisplay',
+        'timeDivider',
+        'durationDisplay',
+        'remainingTimeDisplay',
+        'customControlSpacer',
+        'playbackRateMenuButton',
+        'chaptersButton',
+        'descriptionsButton',
+        'subsCapsButton',
+        'audioTrackButton',
+        'pictureInPictureToggle',
+        'fullscreenToggle'
+      ]
     },
     html5: {
       nativeTextTracks: false,
@@ -180,5 +199,8 @@ const languageImports: LanguageImports = {
 .video-max {
   width: 100%;
   height: 100%;
+}
+:deep(.vjs-current-time) {
+    display: block;
 }
 </style>
