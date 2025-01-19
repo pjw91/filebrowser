@@ -8,9 +8,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"path"
 	"strings"
 
 	"github.com/gorilla/mux"
+	"github.com/spf13/afero"
 
 	"github.com/filebrowser/filebrowser/v2/files"
 	"github.com/filebrowser/filebrowser/v2/img"
@@ -78,9 +81,18 @@ func handleVideoPreview(
 	d *data,
 ) (int, error) {
 	vars := mux.Vars(r)
+	s := vars["path"]
+	if linkReaderFs, ok := d.user.Fs.(afero.LinkReader); ok {
+		l, err := linkReaderFs.ReadlinkIfPossible(s)
+		if err == nil {
+			s = path.Join(path.Dir(s), l)
+		} else if !errors.As(err, &os.ErrInvalid) {
+			return errToStatus(err), err
+		}
+	}
 	file, err := files.NewFileInfo(&files.FileOptions{
 		Fs:         d.user.Fs,
-		Path:       "/" + strings.Replace(vars["path"], "mp4", "jpg", 1),
+		Path:       "/" + strings.Replace(s, "mp4", "jpg", 1),
 		Modify:     d.user.Perm.Modify,
 		Expand:     true,
 		ReadHeader: d.server.TypeDetectionByHeader,
