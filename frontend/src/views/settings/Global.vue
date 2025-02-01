@@ -321,7 +321,7 @@ const save = async () => {
         .filter((cmd: string) => cmd !== "");
     }
   }
-  newSettings.shell = shellValue.value.split("\n");
+  newSettings.shell = shellValue.value.split(" ");
 
   if (newSettings.branding.theme !== getTheme()) {
     setTheme(newSettings.branding.theme);
@@ -386,7 +386,7 @@ onMounted(async () => {
 
     originalSettings.value = original;
     settings.value = newSettings;
-    shellValue.value = newSettings.shell.join("\n");
+    shellValue.value = newSettings.shell.join(" ");
   } catch (err) {
     if (err instanceof Error) {
       error.value = err;
